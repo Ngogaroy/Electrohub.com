@@ -1,0 +1,2610 @@
+/* --- Global Color Palette --- */
+:root {
+    /* Brand Colors */
+    --color-primary: #E91E63;       /* Pink/red for buttons, accents */
+    --color-secondary: #FF5722;     /* Orange/red for complementary elements */
+    --color-destructive: #F44336;   /* Red for alert */
+    --color-success: #1B5E29;       /* green for success */
+
+    /* Neutrals */
+    --color-white: #FFFFFF;
+    --color-light-bg-1: #EFEBE9;    /* Very light, warm background */
+    --color-light-bg-2: #E0E0E0;    /* Standard light grey */
+    --color-grey-dark: #333333;     /* Dark grey for text */
+    --color-grey-medium: #555555;   /* Medium grey for text */
+    --color-grey-light: #888888;    /* Lighter grey for minor text */
+
+    /* Colors for hovers, and gradients */
+    --color-primary-darken: #C2185B; /* A slightly darker shade of primary color for hover */
+    --gradient-hero-start: rgba(233, 30, 99, 0.6);   /* Primary color-gradient with opacity for hero section --start */
+    --gradient-hero-end: rgba(255, 87, 34, 0.6);     /* Secondary color-gradient with opacity for hero section --end */
+}
+
+/* --- Base Styles --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* The font fsmily */
+    line-height: 1.6;
+    color: var(--color-grey-dark);     /* dark grey for text only */
+    background-color: var(--color-light-bg-1); /* Using your light background color for body */
+}
+
+a {
+    text-decoration: none;
+    color: inherit; /* Makes inks to inherit color from their parentd */
+}
+
+/* Welcome Screen Styles */
+.welcome-screen {
+    position: fixed; /* Stays fixed regardless of scroll */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--color-grey-dark); /* Use your theme's background color */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Ensures it's on top of everything else */
+    opacity: 1; /* Starts fully visible */
+    visibility: visible; /* Start visible */
+    transition: opacity 4s ease-out, visibility 1s ease-out; /* Smooth fade-out effect */
+}
+
+.welcome-screen.hidden {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none; /* Prevents interaction with the hidden element */
+}
+
+.welcome-content {
+    text-align: center;
+}
+
+.loader {
+    border: 5px solid #f3f3f3; /* Light grey */
+    border-top: 4px solid var(--color-primary); 
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s linear infinite; /* Spin animation */
+    margin: 0 auto; /* Centers the loader */
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* --- Header --- */
+.header {
+    /* Main header properties */
+    background-color: var(--color-white);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: sticky; /* This makes it stick! */
+    inset-block-start: 0;
+    z-index: 1000;
+    padding: 0 2rem; /* Remove padding from here, move to header-main-content */
+}
+
+.header-main-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0; /* Apply padding here */
+    position: relative; /* This provides the positioning context for the dropdown */
+    width: 100%; /* Ensure it spans the full width of the header */
+    flex-wrap: wrap; /* Keep this for larger screens if elements might wrap */
+}
+
+
+.header-left,
+.header-right {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+    text-align: center;
+    flex: 1;
+    color: var(--color-primary);
+}
+
+/* --- Hamburger Menu Button Styling --- */
+.nav-toggle {
+    display: none; /* Hidden by default on larger screens */
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 10px;
+    position: relative; /* Keep this for toggle animations if you have them */
+    z-index: 1001; /* Ensure it's above other content */
+    margin-left: auto; /* Pushes the toggle to the right on small screens */
+}
+
+.nav-toggle .icon-bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--color-primary-darken);
+    margin: 5px 0;
+    transition: all 0.3s ease-in-out;
+}
+
+/* --- Dropdown Menu Styling --- */
+.dropdown-menu {
+    display: none; /* Hidden by default */
+    flex-direction: column; /* Stack links vertically */
+    position: absolute;
+    top: 100%; /* Position right below the header-main-content */
+    left: 0; /* Align to the left edge of the header-main-content */
+    width: 100%; /* Take full width of the header-main-content */
+    background-color: var(--color-white); /* Use your header background color */
+    box-shadow: 0 5px 10px var(--color-grey-dark);
+    padding: 15px 0;
+    z-index: 999; /* Below the toggle but above main content */
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.dropdown-menu.active {
+    display: flex; /* Show when the 'active' class is added by JS */
+}
+
+.dropdown-menu .dropdown-item {
+    text-decoration: none;
+    color: var(--color-primary); 
+    padding: 10px 20px;
+    right: 0;
+    border-bottom: 1px solid #eee; /* Separator between links */
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-menu .dropdown-item:last-child {
+    border-bottom: none; /* No border on the last item */
+}
+
+.dropdown-menu .dropdown-item:hover {
+    background-color: #f0f0f0; /* Light gray on hover */
+}
+
+
+/* --- Media Query Adjustments --- */
+@media screen and (max-width: 480px) {
+    .header-right,
+    .header-left {
+        display: none; /* Hides the original navs on small screens */
+    }
+
+    /* Show the hamburger menu button */
+    .nav-toggle {
+        display: block;
+    }
+
+    /* Adjust header main content flex behavior on small screens */
+    .header-main-content { /* Apply flex behavior to the new wrapper */
+        flex-wrap: nowrap; /* Prevent logo and toggle from wrapping */
+        justify-content: space-between; /* Keep logo left, toggle right */
+    }
+
+    /* Ensure logo positions correctly and doesn't interfere */
+    .logo {
+        flex: none; /* Override flex: 1; for the logo on small screens */
+        margin-right: auto; /* Pushes logo to the left, and other content to the right */
+        text-align: left; /* Align logo text to the left if needed */
+    }
+}
+
+/* --- Hero Section --- */
+.hero-section {
+    position: relative;
+    inline-size: 100%; /* Will take full width available, then constrained by max-width and margins/padding */
+    block-size: 500px; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    margin: 35px auto;
+    max-inline-size: 1250px; /* Constrain main hero section width */
+    border-radius: 30px; /* Rounded corners for the whole section */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15); /* A subtle shadow for depth */
+    padding: 0 35px; /* Added horizontal padding to create 35px inner space */
+}
+.hero-background-image {
+    position: absolute; /* Declares the position of the image */
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover; /* Ensures image covers the area */
+    object-position: center; /* Centers the image */
+    z-index: 1; /* Stays behind the content and overlay */
+    background-color: var(--color-light-bg-1); /* Fallback background color */
+}
+/* Gradient Overlay for the Hero Section */
+.hero-section::before {
+    content: '';
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    inline-size: 100%;
+    block-size: 100%;
+    z-index: 2; /* Sits between the image and text content */
+    background: linear-gradient(    /* Linear gradient */
+        135deg, /* Diagonal gradient */
+        var(--gradient-hero-start), /* Primary brand color with opacity */
+        var(--gradient-hero-end)    /* Secondary brand color with opacity */
+    );
+    opacity: 0.9; /* Overall opacity of the gradient */
+}
+.hero-content {
+    position: relative; /* Defines the position */
+    z-index: 3; /* Ensure text is on top of everything */
+    text-align: center;
+    color: var(--color-white); /* White text for contrast */
+    max-inline-size: 800px; /* Constrain text width for readability */
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4); /* Subtle text shadow for readability */
+}
+.hero-content h1 {
+    font-size: 3.8em; /* Larger and more impactful heading */
+    font-weight: 700; /* Gives the content weight */
+    line-height: 1.1;
+    margin-block-end: 0.4em; /* Reduced margin for tighter spacing */
+    letter-spacing: -0.02em; /* Slightly tighter letter spacing for modern look */
+}
+.hero-content p {
+    font-size: 1.4em; /* For larger subheading */
+    line-height: 1.5;
+    margin-block-end: 2.5em; /* Adds space before the button */
+    font-weight: 300; /* Lighter font weight for subheading */
+    max-inline-size: 600px; /* Keeps the paragraph concise */
+    margin-inline-start: auto;
+    margin-inline-end: auto;
+}
+/* Call to Action Button Styling (hero-cta-btn) */
+.hero-cta-btn {
+    display: inline-block;
+    padding: 18px 40px; /* Padding for a primary CTA */
+    background-color: var(--color-white); /* White button for strong contrast */
+    color: var(--color-primary); /* Text color is the primary brand color */
+    text-decoration: none;
+    border-radius: 12px; 
+    font-weight: 700; /* Font weight */
+    font-size: 1.15em; /* Font size */
+    cursor: pointer; /* Ensure cursor is pointer */
+    transition: all 0.3s ease; /* Smooth transition for all properties */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Adds a stronger shadow */
+}
+.hero-cta-btn:hover {
+    background-color: var(--color-primary); /* Primary background on hover */
+    color: var(--color-white); /* White text on hover */
+    transform: translateY(-3px); /* More pronounced lift on hover */
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3); /* Deeper shadow on hover */
+}
+/* --- Responsive Adjustments for Hero Section --- */
+@media (max-width: 992px) {
+    .hero-section {
+        block-size: 450px; /* Adjusts height for medium screens */
+        border-radius: 20px; /* Smaller border-radius */
+        padding: 0 25px; /* Adjusts horizontal padding */
+    }
+    .hero-content h1 {
+        font-size: 3em; /* Adjusts heading size */
+    }
+    .hero-content p {
+        font-size: 1.3em; /* Adjusts subheading size */
+    }
+    .hero-cta-btn {
+        padding: 16px 35px;
+        font-size: 1.1em;
+    }
+}
+@media (max-width: 768px) {
+    .hero-section {
+        block-size: 400px; /* Further reduced height on smaller screens */
+        margin: 25px auto; /* Adjusted margin */
+        padding: 0 20px; /* Adjust horizontal padding */
+        border-radius: 15px;
+    }
+    .hero-content h1 {
+        font-size: 2.5em; /* Optimized for mobile */
+        margin-block-end: 0.3em;
+    }
+    .hero-content p {
+        font-size: 1.1em; /* Optimized for mobile */
+        margin-block-end: 2em;
+    }
+    .hero-cta-btn {
+        padding: 14px 30px;
+        font-size: 1em;
+    }
+}
+@media (max-width: 480px) {
+    .hero-section {
+        block-size: 350px; /* Smallest height for very small devices */
+        margin: 20px auto;
+        padding: 0 15px; /* Further adjust horizontal padding */
+        border-radius: 10px;
+    }
+    .hero-content h1 {
+        font-size: 2em;
+    }
+    .hero-content p {
+        font-size: 0.95em;
+        margin-block-end: 1.5em;
+    }
+    .hero-cta-btn {
+        padding: 12px 25px;
+        font-size: 0.9em;
+    }
+}
+
+/* --- Envision Section --- */
+.envision-section {
+    display: flex;
+    flex-direction: column; /* Defaults to column for small screens */
+    align-items: center; /* Centers items when stacked vertically */
+    justify-content: center; /* Center content vertically if space allows */
+    margin: 80px auto; /* Increases margin for more breathing room around the section */
+    padding: 0 35px; /* Increased horizontal padding for larger screens */
+    gap: 60px; /* Increased gap for more separation between text and image on desktop */
+    max-inline-size: 1400px; /* Max-width for a more expansive feel */
+    position: relative; /* Needed for any potential absolute positioning inside */
+}
+.envision-text,
+.envision-image {
+    inline-size: 100%; /* Take full width on small screens */
+    text-align: center; /* Center text by default on small screens */
+    position: relative; /* For pseudo-elements or subtle positioning */
+    z-index: 2; /* Ensure text/image are above background elements */
+}
+/* Pseudo-element for background accent on text side */
+.envision-text::before {
+    content: '';
+    position: absolute;
+    inset-block-start: -20%;
+    inset-inline-start: -20%;
+    inline-size: 100%; /* Will scale with parent width */
+    padding-block-end: 100%; /* Creates a square that will become a circle */
+    background-color: var(--color-primary); /* Using primary brand color */
+    border-radius: 50%; /* Create a circle */
+    opacity: 0.08; /* Subtle transparency */
+    z-index: -1; /* Send it behind the content */
+    transform: translate(-10%, -10%); /* Adjust position slightly */
+    filter: blur(50px); /* Apply a blur for a soft, diffused look */
+    pointer-events: none; /* Ensure it doesn't interfere with clicks */
+    display: none; /* Hidden by default, shown on desktop */
+}
+.envision-image img {
+    /* Asymmetrical border-radius */
+    inline-size: 100%;
+    block-size: auto;
+    display: block;
+    object-fit: cover;
+    border-radius: 40px 180px 40px 40px; /* Top-left, Top-right, Bottom-right, Bottom-left */
+    background-color: var(--color-light-bg-1); /* Light background behind the image */
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15); /* Pronounced shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Adds transition for subtle hover */
+}
+.envision-image img:hover {
+    transform: translateY(-5px); /* Slight lift on image hover */
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
+}
+.envision-text p.section-tag {
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--color-primary);
+    margin-block-end: 0.8rem;
+    font-weight: 600;
+}
+.envision-text h2 {
+    font-size: 3.2em; /* Slightly larger heading for impact */
+    font-weight: 700;
+    line-height: 1.2;
+    margin-block-end: 1rem;
+    color: var(--color-grey-dark); 
+}
+.envision-text p:last-of-type {
+    font-size: 1.15rem; /* Slightly larger description text */
+    line-height: 1.6;
+    color: var(--color-grey-medium);
+    margin-block-end: 2.5rem; /* Adds more space before the button */
+    max-inline-size: 650px; /* Allows description to be slightly wider */
+    margin-inline-start: auto;
+    margin-inline-end: auto;
+}
+/* Call to Action Button Styling for envision section */
+.find-expert-btn {
+    display: inline-block;
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    padding: 15px 35px;
+    border-radius: 12px;
+    border: 2px solid var(--color-primary); 
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+.find-expert-btn:hover {
+    background-color: var(--color-primary-darken); 
+    border-color: var(--color-primary-darken); 
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+/* --- Media Queries for Responsive Layout --- */
+
+@media (min-width: 992px) { /* Larger desktop screens --asymmetrical layout */
+    .envision-section {
+        flex-direction: row; /* Side-by-side */
+        text-align: start; /* Align text left */
+        align-items: center; /* Center items vertically */
+        padding: 0 50px; /* Adds more padding on very large screens */
+    }
+    .envision-text {
+        flex: 1.2; /* Text column takes more space */
+        padding-inline-end: 40px; /* Space between text and image */
+        text-align: start; /* Ensures text alignment is left */
+    }
+    .envision-image {
+        flex: 0.8; /* Image column takes less space */
+        padding-inline-start: 40px; /* Space between text and image */
+    }
+    .envision-text p:last-of-type {
+        margin-inline-start: 0; /* Removes auto margins when aligned left */
+        margin-inline-end: 0;
+    }
+    /* Show the background accent only on large screens */
+    .envision-text::before {
+        display: block;
+        inset-block-start: 20%;
+        inset-inline-start: -10%;
+        inline-size: 80%;
+        padding-block-end: 80%;
+    }
+}
+@media (min-width: 768px) and (max-width: 991px) { /* Medium screens (tablets in landscape) */
+    .envision-section {
+        flex-direction: row; /* Still side-by-side */
+        text-align: start;
+        align-items: center;
+        gap: 30px; /* Adjusted gap */
+        padding: 0 25px; /* Adjusted padding */
+    }
+    .envision-text {
+        flex: 1; /* Equal flex on medium screens */
+        padding-inline-end: 15px;
+    }
+    .envision-image {
+        flex: 1; /* Equal flex on medium screens */
+        padding-inline-start: 15px;
+    }
+    .envision-text h2 {
+        font-size: 2.5em; /* Adjusted heading size */
+    }
+    .envision-text p:last-of-type {
+        font-size: 1rem; /* Adjusted description size */
+        margin-inline-start: 0;
+        margin-inline-end: 0;
+    }
+    .find-expert-btn {
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
+    .envision-image img {
+        border-radius: 30px 100px 30px 30px; /* Slightly reduced unique radius */
+    }
+}
+@media (max-width: 767px) { /* Smaller screens (tablets in portrait & mobile) */
+    .envision-section {
+        margin: 50px auto; /* Adjust vertical margin for mobile */
+        padding: 0 20px; /* Adjust horizontal padding for mobile */
+        gap: 30px; /* Adjust gap for mobile */
+    }
+    .envision-text h2 {
+        font-size: 2.2em; /* Smaller heading on mobile */
+    }
+    .envision-text p:last-of-type {
+        font-size: 0.95rem; /* Smaller description on mobile */
+        max-inline-size: 90%; /* Ensures description fits well */
+    }
+    .find-expert-btn {
+        padding: 10px 25px; /* Smaller button on mobile */
+        font-size: 0.95rem;
+    }
+    .envision-image img {
+        border-radius: 20px; /* Simplifies border-radius on mobile */
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Lighter shadow on mobile */
+    }
+}
+@media (max-width: 480px) {
+    .envision-text h2 {
+        font-size: 1.8em;
+    }
+    .envision-text p:last-of-type {
+        font-size: 0.9rem;
+    }
+    .find-expert-btn {
+        padding: 8px 20px;
+        font-size: 0.9rem;
+    }
+}
+
+/* --- Global Color Palette --- */
+:root {
+    /* Brand Colors */
+    --color-primary: #E91E63;       /* Pink/red for buttons, accents */
+    --color-secondary: #FF5722;     /* Orange/red for complementary elements */
+    --color-destructive: #F44336;   /* Red for alert */
+    --color-success: #1B5E29;       /* Green for success */
+
+    /* Neutrals */
+    --color-white: #FFFFFF;
+    --color-light-bg-1: #EFEBE9;    /* Very light, warm background */
+    --color-light-bg-2: #E0E0E0;    /* Standard light grey */
+    --color-grey-dark: #333333;     /* Dark grey for text */
+    --color-grey-medium: #555555;   /* Medium grey for text */
+    --color-grey-light: #888888;    /* Lighter grey for minor text */
+
+    /* Derived Colors (for hovers, specific gradients) */
+    --color-primary-darken: #C2185B; /* A slightly darker shade of --color-primary for hover */
+    --gradient-hero-start: rgba(233, 30, 99, 0.6);  /* --color-primary with opacity for hero gradient */
+    --gradient-hero-end: rgba(255, 87, 34, 0.6);    /* --color-secondary with opacity for hero gradient */
+} 
+
+/* --- Services Section --- */
+.services {
+    /* Centralize the section and add global padding */
+    max-width: 1200px;
+    margin: 36px auto; /* Reduced from 60px to achieve overall height reduction */
+    padding: 0 20px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.services-text {
+    text-align: center;
+    margin-bottom: 24px;
+    max-width: 700px;
+}
+.services-text p:first-child { /* Targets "OUR SERVICES" label */
+    font-size: 0.9rem; /* Retaines original font size */
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--color-primary); /* Applies primary brand color */
+    margin-bottom: 0.8rem; /* Retaines original margin */
+    font-weight: 600;
+}
+.services-text h2 {
+    font-size: 2.8em;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem; /* Retaines the original margin */
+    color: var(--color-grey-dark); /* Applies dark grey for heading */
+}
+.services-text p:last-of-type { /* Targets description paragraph */
+    font-size: 1.1rem; 
+    color: var(--color-grey-medium); /* Applies medium grey for description */
+    max-width: 700px;
+    margin: 0 auto;
+}
+.services-offered {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+}
+/* Base styling for all service cards */
+.service-1,
+.service-2,
+.service-3 {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 30px; 
+    border-radius: 20px;
+    overflow: hidden;
+    text-align: left;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+
+
+/* Service Card Specific Colors (Brand Integration) */
+.service-1 {
+    background-color: var(--color-primary); /* Applies primary brand color */
+    color: var(--color-white); /* Applies white text for contrast */
+}
+
+.service-2 {
+    background-color: var(--color-light-bg-1); /* Applies light background color */
+    color: var(--color-grey-dark); /* Applies dark grey for text */
+}
+
+.service-3 {
+    background-color: var(--color-light-bg-1); /* Applies light background color */
+    color: var(--color-grey-dark); /* Applies dark grey for text */
+}
+
+/* Styling for headings inside service cards */
+.service-1 h2, .service-2 h2, .service-3 h2 {
+    font-size: 2em; 
+    font-weight: 600;
+    line-height: 1.2;
+    margin-bottom: 10px; 
+    color: inherit; /* Inherits color from parent card */
+}
+
+/* Styling for paragraphs inside service cards */
+.service-1 p, .service-2 p, .service-3 p {
+    font-size: 1rem; 
+    line-height: 1.6;
+    margin-bottom: 16px;
+    flex-grow: 1;
+    color: inherit; /* Inherits color from parent card */
+}
+
+
+
+.learn-more {
+    display: inline-block;
+    background-color: transparent;
+    padding: 8px 20px; 
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1rem; 
+    transition: all 0.3s ease;
+    margin-top: 16px; 
+    align-self: flex-start;
+}
+
+/* Specific button colors based on parent card background */
+.service-1 .learn-more {
+    border-color: var(--color-white); /* White border for buttons on dark cards */
+    color: var(--color-white); /* White text for buttons on dark cards */
+}
+
+.service-2 .learn-more,
+.service-3 .learn-more {
+    border-color: var(--color-primary); /* Primary color border for buttons on light cards */
+    color: var(--color-primary); /* Primary color text for buttons on light cards */
+}
+
+/* Hover effects for all buttons */
+.learn-more:hover {
+    background-color: var(--color-primary); /* Primary background on hover for all */
+    color: var(--color-white) !important; /* White text on hover for all */
+    border-color: var(--color-primary) !important; /* Primary border on hover for all */
+    transform: translateY(-6px); 
+    box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+}
+
+/* --- Responsive Adjustments for Services Section --- */
+
+@media (min-width: 768px) {
+    .services-offered {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px; 
+    }
+    .service-3 {
+        grid-column: 1 / span 2;
+    }
+}
+
+@media (max-width: 768px) {
+    .services {
+        padding: 0 15px;
+        margin: 24px auto; /* Reduced from 40px */
+    }
+    .services-text h2 {
+        font-size: 2.2em; /* Retained original font size */
+    }
+    .services-text p:last-of-type {
+        font-size: 1rem; /* Retained original font size */
+    }
+
+    .service-1,
+    .service-2,
+    .service-3 {
+        padding: 20px; /* Reduced from 25px */
+    }
+
+    .service-1 h2, .service-2 h2, .service-3 h2 {
+        font-size: 1.8em; /* Retained original font size */
+        margin-bottom: 8px; /* Retained original margin */
+    }
+
+    .service-1 p, .service-2 p, .service-3 p {
+        font-size: 0.95rem; /* Retained original font size */
+        margin-bottom: 10px; /* Reduced from 12px */
+    }
+
+    .learn-more {
+        padding: 7px 15px; /* Reduced from 10px 20px */
+        font-size: 0.9rem; /* Retained original font size */
+    }
+
+    .service-1-image,
+    .service-2-image,
+    .service-3-image {
+        text-align: center;
+        margin-top: 12px; /* Reduced from 15px */
+    }
+    .service-1-image img,
+    .service-2-image img,
+    .service-3-image img {
+        max-width: 45%;
+    }
+}
+
+@media (max-width: 480px) {
+    .services-text h2 {
+        font-size: 2em; /* Retained original font size */
+    }
+    .services-text p:last-of-type {
+        font-size: 0.95rem; /* Retained original font size */
+    }
+    .service-1,
+    .service-2,
+    .service-3 {
+        padding: 16px; /* Reduced from 20px */
+    }
+    .service-1 h2, .service-2 h2, .service-3 h2 {
+        font-size: 1.6em; /* Retained original font size */
+    }
+    .service-1 p, .service-2 p, .service-3 p {
+        font-size: 0.9rem; /* Retained original font size */
+    }
+    .learn-more {
+        padding: 6px 12px; /* Reduced from 7px 15px */
+        font-size: 0.85rem; /* Retained original font size */
+    }
+  
+    
+}
+
+
+/* --- Global Color Palette --- */
+:root {
+    /* Brand Colors */
+    --color-primary: #E91E63;       /* Pink/red for buttons, accents */
+    --color-secondary: #FF5722;     /* Orange/red for complementary elements */
+    --color-destructive: #F44336;   /* Red for alerts */
+    --color-success: #1B5E29;       /* Green for success */
+
+    /* Neutrals */
+    --color-white: #FFFFFF;
+    --color-light-bg-1: #EFEBE9;    /* Very light, warm background */
+    --color-light-bg-2: #E0E0E0;    /* Standard light grey */
+    --color-grey-dark: #333333;     /* Dark grey for text */
+    --color-grey-medium: #555555;   /* Medium grey for text */
+    --color-grey-light: #888888;    /* Lighter grey for minor text */
+    --color-grey-dark: var(--color-grey-dark) /* Darker gray for minor text*/
+
+    /* Derived Colors (for hovers, specific gradients) */
+    --color-primary-darken: #C2185B; /* A slightly darker shade of --color-primary for hover */
+    --gradient-hero-start: rgba(233, 30, 99, 0.6);
+    --gradient-hero-end: rgba(255, 87, 34, 0.6);
+}
+
+/* --- Testimonials Section --- */
+.testimonials {
+    /* Uses a max-width for the whole section for better control on very large screens */
+    max-inline-size: 1200px;
+    margin: 60px auto; /* Add vertical margin and center the section */
+    padding: 0 20px; /* Add horizontal padding for smaller screens */
+    /* Grid layout for intro and cards section */
+    display: grid;
+    /* Flexible columns: intro takes 1 part, testimonial-cards take 2 parts */
+    grid-template-columns: 1fr 2fr;
+    gap: 40px; /* gap for better spacing */
+    position: relative; /* Keep for potential absolute positioning of elements if needed later */
+}
+.intro {
+    padding-inline-end: 20px; /* Adds some padding if the content gets too close to the grid line */
+}
+.section-label {
+    font-size: 0.8rem; /* Slightly larger for readability */
+    text-transform: uppercase;
+    letter-spacing: 1.5px; /* Increased letter-spacing */
+    color: var(--color-primary); /* Applied brand primary color */
+    margin-block-end: 0.8rem; /* Adjusted margin */
+    font-weight: 600; /* Make it bolder */
+}
+.intro h2 {
+    font-size: 2.2rem; /* Larger and more impactful */
+    font-weight: 700; /* Bold */
+    line-height: 1.2; /* Tighter line height for impact */
+    margin-block-end: 1rem;
+    color: var(--color-grey-dark); /* Applied dark grey for heading */
+}
+.description {
+    font-size: 1rem; /* Slightly larger for readability */
+    color: var(--color-grey-medium); /* Applied medium grey for description */
+    margin-block-end: 2rem;
+}
+.nav-buttons {
+    display: flex;
+    gap: 1.5rem; /* Increased gap between buttons */
+    margin-block-start: 2rem; /* Adds some space above the buttons */
+}
+.nav-btn {
+    inline-size: 3rem; /* Larger buttons */
+    block-size: 3rem; /* Larger buttons */
+    border-radius: 50%;
+    border: 1px solid var(--color-light-bg-2); /* Subtle border for both using light grey */
+    font-size: 1.4rem; /* Larger arrows */
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Subtle shadow for depth */
+}
+.nav-btn:hover {
+    transform: translateY(-2px); /* Slight lift on hover */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15); /* More pronounced shadow on hover */
+    background-color: var(--color-primary-darken); /* Darker primary on hover */
+    color: var(--color-white); /* White text on hover */
+    border-color: var(--color-primary-darken); /* Match border to darker primary */
+}
+.nav-btn.left {
+    background-color: var(--color-white); /* White background for left button */
+    color: var(--color-grey-medium); /* Medium grey for left button */
+}
+.nav-btn.right {
+    background-color: var(--color-primary); /* Primary brand color for active/right button */
+    color: var(--color-white); /* White text for active/right button */
+    border-color: var(--color-primary); /* Match border to primary color */
+}
+/* Testimonial Cards Container */
+.testimonial-cards {
+    display: flex;
+    gap: 2rem; /* Gap between cards */
+    flex-wrap: wrap; /* Wraps visiblr cards */
+    justify-content: center; /* Center cards if there are fewer than a full row */
+    align-items: flex-start; /* Align cards to the top */
+}
+/* Individual Card Design */
+.card {
+    /* Adjusts flex-basis for better control on different screen sizes */
+    flex: 0 0 320px; /* Cards will be 320px wide and won't shrink */
+    max-inline-size: 100%; /* Ensures it doesn't overflow on very small screens */
+    border-radius: 1.5rem;
+    padding: 30px; /* Padding inside cards */
+    font-size: 1rem; /* Slightly larger base font size */
+    line-height: 1.6;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); /* Standard shadow for all cards */
+    transition: all 0.3s ease; /* Smooth transition for hover */
+    display: flex; /* Use flexbox for internal content alignment */
+    flex-direction: column;
+    justify-content: space-between; /* Pushes quote to top, author to bottom if space allows */
+}
+.testimonial-cards .card {
+    display: none; /* Hides all cards initially for the slider functionality (controlled by JavaScript) */
+}
+/* Adds a class to show visible cards (controlled by JavaScript) */
+.testimonial-cards .card.visible {
+    display: flex;
+}
+/* Unified Card Backgrounds and Text Colors (Branding & Consistency) */
+/* Default light card */
+.card {
+    background-color: var(--color-light-bg-1); /* Off-white for a clean look */
+    color: var(--color-grey-dark); /* Dark text for readability */
+}
+/* Highlight card (c1) with branding color */
+.card.c1 {
+    background-color: var(--color-primary); /* Your brand primary color */
+    color: var(--color-white); /* White text on primary */
+}
+.card.c3,
+.card.c5{
+    background-color: var(--color-light-bg-1);
+    color: var(--color-grey-dark);
+}
+.quote {
+    font-size: 1.4rem; /* Appropriate size for a quote */
+    font-weight: 400; /* Regular weight */
+    line-height: 1.4;
+    margin-block-end: 1.5rem; /* More space below quote */
+    font-style: italic;
+    color: inherit; /* Inherits color from card */
+    /* Adding a subtle quote icon with pseudo-elements */
+    position: relative;
+    padding-block-start: 20px; /* Space for the quote icon */
+}
+.quote::before {
+    content: "“"; /* Unicode for left double quotation mark */
+    font-size: 4rem; /* Large quote icon */
+    color: var(--color-primary); /* Brand primary color for the icon */
+    position: absolute;
+    inset-block-start: -10px; /* Vertical position */
+    inset-inline-start: 0;
+    line-height: 1;
+    opacity: 0.2; /* Makes the quote icon subtle */
+    font-family: sans-serif; /* Ensures it renders well */
+    font-weight: bold;
+}
+/* For the highlight card (c1), makes the quote icon white */
+.card.c1 .quote::before {
+    color: var(--color-white);
+    opacity: 0.3;
+}
+.author {
+    margin-block-start: auto; /* Pushes author to the bottom while using flex column */
+    font-weight: 600; /* Bolder author name */
+    color: var(--color-grey-light); /* Lighter grey for author */
+    border-block-start: 1px solid rgba(0, 0, 0, 0.1); /* Subtle separator */
+    padding-block-start: 10px; /* Space above separator */
+    text-align: end; /* Aligns author to the right */
+}
+/* For the highlight card (c1), adjust author color */
+.card.c1 .author {
+    color: rgba(255, 255, 255, 0.8); /* Lighter text on dark background */
+    border-color: rgba(255, 255, 255, 0.2);
+}
+/* --- Media Queries for Testimonials Section responsiveness --- */
+@media screen and (max-width: 992px) {
+    .testimonials {
+        /* On medium screens, intro takes 1 part, cards take 1.5 parts */
+        grid-template-columns: 1fr 1.5fr;
+        gap: 30px; /* Adjusted gap */
+    }
+
+    .card {
+        flex: 0 0 45%; /* Allow 2 cards per row on medium screens */
+        /* This implies flex-wrap: wrap on testimonial-cards */
+    }
+}
+@media screen and (max-width: 768px) {
+    .testimonials {
+        grid-template-columns: 1fr; /* Single column layout */
+        padding: 0 15px; /* Adjust padding for smaller screens */
+    }
+    .intro {
+        text-align: center; /* Centers text on small screens */
+        padding-inline-end: 0;
+    }
+    .nav-buttons {
+        justify-content: center; /* Center buttons on small screens */
+        margin-block-end: 2rem; /* Add space below buttons when intro is centered */
+    }
+    .intro h2 {
+        font-size: 2rem;
+    }
+    .testimonial-cards {
+        flex-direction: hidden; /* ensures only one card is visible on small screens */ 
+        justify-content: center; /* Centers the visible card(s) */
+    }
+    .card {
+        flex: 0 0 90%; /* Single card takes most of the width */
+        max-inline-size: 400px; /* Cap max width for larger mobile devices */
+        padding: 25px; /* Slightly reduced padding */
+    }
+    .quote {
+        font-size: 1.2rem;
+    }
+}
+ /* For smaller screens */
+@media screen and (max-width: 480px) {
+    .section-label {
+        font-size: 0.75rem;
+    }
+    .intro h2 {
+        font-size: 1.8rem;
+    }
+    .description {
+        font-size: 0.9rem;
+    }
+    .nav-btn {
+        inline-size: 2.2rem;
+        block-size: 2.2rem;
+        font-size: 1rem;
+    }
+    .card {
+        padding: 20px;
+    }
+    .quote {
+        font-size: 1.1rem;
+        padding-block-start: 15px;
+    }
+    .quote::before {
+        font-size: 3rem;
+        inset-block-start: -5px;
+    }
+}
+
+/* --- Global Color Palette --- */
+:root {
+    /* Brand Colors */
+    --color-primary: #E91E63;       /* Pink/red for buttons, accents */
+    --color-secondary: #FF5722;     /* Orange/red for complementary elements */
+    --color-destructive: #F44336;   /* Red for Alert */
+    --color-success: #1B5E29;       /* Your success green */
+
+    /* Neutrals */
+    --color-white: #FFFFFF;
+    --color-light-bg-1: #EFEBE9;    /* Very light, warm background */
+    --color-light-bg-2: #E0E0E0;    /* Standard light grey */
+    --color-grey-dark: #333333;     /* Dark grey for text */
+    --color-grey-medium: #555555;   /* Medium grey for text */
+    --color-grey-light: #888888;    /* Lighter grey for minor text */
+
+    /* Derived Colors (for hovers, specific gradients) */
+    --color-primary-darken: #C2185B; /* A slightly darker shade of --color-primary for hover */
+    --gradient-hero-start: rgba(233, 30, 99, 0.6);  /* --color-primary with opacity for hero gradient */
+    --gradient-hero-end: rgba(255, 87, 34, 0.6);    /* --color-secondary with opacity for hero gradient */
+}
+
+/* Our Partners Section */
+.partners-section {
+    padding: 60px 20px;
+    background-color: var(--color-white); /* White background for logos to stand out */
+    text-align: center; /* This will center the heading text by default for fallback */
+}
+.partners-container {
+    max-inline-size: 1200px; /* Aligns with max-width of other main containers */
+    margin: 0 auto;
+    /* --- NEW for Large Screens (Default) --- */
+    display: flex; /* Make it a flex container to place items side-by-side */
+    align-items: center; /* Vertically align items in the middle of the container */
+    justify-content: space-between; /* Pushes heading to the left, logos to the right */
+    gap: 30px; /* Provides space between the heading and the logos container */
+}
+.partners-heading {
+    font-size: 1.2em; /* Consistent heading size */
+    line-height: 1.3;
+    color: var(--color-grey-dark); /* Consistent text color */
+    margin-block-end: 0; /* Remove bottom margin when it's in a row on large screens */
+    text-align: left; /* Ensure the heading text is left-aligned within its flex item */
+    flex-shrink: 0; /* Prevent the heading from shrinking */
+    /* You can add a max-width here if the heading text is very long and you want to constrain it, e.g., max-width: 300px; */
+}
+.partner-logos {
+    display: grid;
+    /* Default for larger screens: 6 columns, equal width */
+    grid-template-columns: repeat(6, 1fr);
+    gap: 30px; /* Space between logos */
+    justify-items: center; /* Center logos within their grid cells */
+    align-items: center; /* Vertically align logos within their grid cells */
+    padding: 0 20px; /* Add some horizontal padding to prevent logos touching edges */
+    /* --- NEW for Large Screens (Default) --- */
+    flex-grow: 1; /* Allows the logos container to take up the remaining available space */
+}
+.partner-item {
+    display: flex; /* Use flex to center image within the item */
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    background-color: var(--color-light-bg-1); /* Light background for each logo box */
+    border-radius: 8px; /* Consistent with other tech-themed elements like FAQ items */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Subtle shadow for depth */
+    block-size: 100px; /* Fixed height for consistent sizing of logo boxes */
+    max-inline-size: 200px; /* Limit width of each logo box on larger screens */
+    inline-size: 100%; /* Ensure item takes full grid cell width */
+}
+.partner-item img {
+    max-inline-size: 100%; /* Ensure image doesn't overflow its container */
+    max-block-size: 70px; /* Limit image height within the box, allowing some padding */
+    object-fit: contain; /* Ensures the entire logo is visible without cropping */
+    filter: grayscale(100%); /* Optional: Make logos grayscale for a sleek, uniform look */
+    opacity: 0.7; /* Makes the logos slightly faded for branding consistency */
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+}
+.partner-item img:hover {
+    filter: grayscale(0%); /* Color on hover */
+    opacity: 1; /* Full opacity on hover */
+}
+
+/* --- Media Queries for Partners Section --- */
+
+@media (max-width: 992px) { /* Adjust for medium screens (e.g., tablets in landscape) */
+    .partners-container {
+        flex-direction: column; /* Stack heading and logos vertically */
+        align-items: center; /* Center items (heading and logo grid) horizontally when stacked */
+        gap: 30px; /* Restore gap between stacked elements */
+    }
+    .partners-heading {
+        margin-block-end: 30px; /* Reintroduce bottom margin for spacing when stacked */
+        text-align: center; /* Center the heading text when stacked */
+    }
+    .partner-logos {
+        grid-template-columns: repeat(4, 1fr); /* Change to 4 columns */
+        gap: 20px;
+        padding: 0; /* Remove horizontal padding, allow grid to span full width */
+    }
+}
+
+@media (max-width: 768px) { /* Adjust for common tablet breakpoints */
+    .partners-heading {
+        line-height: 1.3; /* Slightly tighter line height for better readability */
+        font-size: 2em;
+        margin-block-end: 30px;
+    }
+    .partner-logos {
+        grid-template-columns: repeat(3, 1fr); /* Change to 3 columns for better readability */
+        gap: 15px; /* Adjust gap */
+    }
+    .partner-item {
+        block-size: 80px; /* Slightly smaller height */
+        padding: 10px; /* Adjust padding */
+    }
+    .partner-item img {
+        max-block-size: 50px; /* Adjust image size */
+    }
+}
+
+@media (max-width: 480px) { /* Adjust for small mobile screens */
+    .partners-heading {
+        font-size: 1.8em;
+    }
+    .partners-logos {
+        grid-template-columns: repeat(2, 1fr); /* Change to 2 columns for phones */
+        gap: 10px; /* Adjust gap */
+    }
+    .partner-item {
+        block-size: 70px; /* Adjust height */
+        padding: 8px; /* Adjust padding */
+    }
+    .partner-item img {
+        max-block-size: 45px; /* Adjust image size */
+    }
+}
+/* --- Global Color Palette --- */
+:root {
+    /* Brand Colors */
+    --color-primary: #E91E63;       /* Your specified pink/red for buttons, accents */
+    --color-secondary: #FF5722;     /* Your new orange/red for complementary elements */
+    --color-destructive: #F44336;   /* Your alert red */
+    --color-success: #1B5E29;       /* Your success green */
+
+    /* Neutrals */
+    --color-white: #FFFFFF;
+    --color-light-bg-1: #EFEBE9;    /* Very light, warm background */
+    --color-light-bg-2: #E0E0E0;    /* Standard light grey */
+    --color-grey-dark: #333333;     /* Dark grey for text */
+    --color-grey-medium: #555555;   /* Medium grey for text */
+    --color-grey-light: #888888;    /* Lighter grey for minor text */
+
+    /* Derived Colors (for hovers, specific gradients) */
+    --color-primary-darken: #C2185B; /* A slightly darker shade of --color-primary for hover */
+    --gradient-hero-start: rgba(233, 30, 99, 0.6);  /* --color-primary with opacity for hero gradient */
+    --gradient-hero-end: rgba(255, 87, 34, 0.6);    /* --color-secondary with opacity for hero gradient */
+}
+
+/* Explore Our Resources Section */
+.resources-section {
+    padding: 80px 20px;
+    background-color: var(--color-light-bg-2); /* Light grey background */
+    text-align: center;
+}
+.resources-container {
+    max-inline-size: 1200px;
+    margin: 0 auto;
+}
+.resources-heading {
+    font-size: 2.8em;
+    color: var(--color-grey-dark); /* Dark grey for heading */
+    margin-block-end: 15px;
+}
+.resources-intro {
+    font-size: 1.1em;
+    color: var(--color-grey-medium); /* Medium grey for intro text */
+    max-inline-size: 800px;
+    margin: 0 auto 50px auto;
+    line-height: 1.6;
+}
+.resource-cards {
+    display: grid;
+    /* This grid determines how many cards show per row *when they are visible* */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px; /* Space between cards */
+    padding: 0 20px;
+    margin-block-end: 50px; /* Space before the pagination controls */
+}
+.resource-card {
+    display: flex; /* Will be toggled by JS between 'flex' and 'none' */
+    flex-direction: column;
+    background-color: var(--color-white); /* White background for resource cards */
+    border-radius: 8px; /* Adds border radious */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* Slight shadow */
+    text-decoration: none;
+    color: var(--color-grey-dark);
+    overflow: hidden; /* Ensures image corners are rounded */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    block-size: 100%; /* Makes cards same height in grid */
+}
+
+.resource-card img {
+    inline-size: 100%;
+    block-size: 200px; /* Fixed height for consistent image sizing */
+    object-fit: cover;
+    border-start-start-radius: 8px;
+    border-start-end-radius: 8px;
+}
+
+.resource-card .card-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    text-align: start;
+}
+
+.resource-card h3 {
+    font-size: 1.3em;
+    color: var(--color-grey-dark); /* Dark grey for resource titles */
+    margin-block-end: 10px;
+    line-height: 1.3;
+}
+
+.resource-card p {
+    font-size: 0.95em;
+    color: var(--color-grey-medium); /* Medium grey for resource descriptions */
+    line-height: 1.5;
+    flex-grow: 1;
+    margin-block-end: 15px;
+}
+
+.resource-card .read-more {
+    font-weight: 600;
+    color: var(--color-primary); /* Primary brand color for "Read More" links */
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    margin-block-start: 10px;
+    transition: color 0.3s ease;
+}
+
+.resource-card .read-more:hover {
+    color: var(--color-primary-darken); /* Darker primary on hover */
+}
+.read-more i {
+    font-size: 0.9em;
+}
+/* Pagination Controls Styling */
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin-block-start: 20px;
+}
+.pagination-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background-color: var(--color-primary); /* Primary brand color for pagination buttons */
+    color: var(--color-white); /* White text on buttons */
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.pagination-btn:hover:not(:disabled) {
+    background-color: var(--color-primary-darken); /* Darker primary on hover */
+    transform: translateY(-2px);
+}
+
+.pagination-btn:disabled {
+    background-color: var(--color-light-bg-2); /* Grey out disabled buttons */
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Media Queries for Resources Section */
+@media (max-width: 992px) {
+    .resources-heading {
+        font-size: 2.5em;
+    }
+    .resources-intro {
+        font-size: 1.05em;
+        margin-block-end: 40px;
+    }
+    .resource-cards {
+        /* On medium screens, fit 2-3 columns depending on minmax */
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 25px;
+    }
+    .resource-card img {
+        block-size: 180px;
+    }
+    .resource-card .card-content {
+        padding: 18px;
+    }
+    .resource-card h3 {
+        font-size: 1.2em;
+    }
+    .resource-card p {
+        font-size: 0.9em;
+    }
+    .resource-card .read-more {
+        font-size: 0.85em;
+    }
+}
+
+@media (max-width: 768px) {
+    .resources-heading {
+        font-size: 2.2em;
+    }
+    .resources-intro {
+        font-size: 1em;
+        margin-block-end: 30px;
+    }
+    .resource-cards {
+        /* On smaller tablets/larger phones, fit 2 columns */
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px;
+        padding: 0 10px;
+    }
+    .resource-card img {
+        block-size: 160px;
+    }
+    .resource-card .card-content {
+        padding: 15px;
+    }
+    .resource-card h3 {
+        font-size: 1.1em;
+    }
+    .resource-card p {
+        font-size: 0.85em;
+    }
+    .resource-card .read-more {
+        font-size: 0.8em;
+    }
+    .pagination-btn {
+        padding: 10px 20px;
+        font-size: 0.9em;
+    }
+}
+
+@media (max-width: 480px) {
+    .resource-cards {
+        /* For very small mobile screens, stack cards in a single column */
+        grid-template-columns: 1fr;
+        gap: 15px;
+        padding: 0;
+    }
+    .resource-card img {
+        block-size: 140px;
+    }
+    .resource-card .card-content {
+        padding: 12px;
+    }
+    .resource-card h3 {
+        font-size: 1em;
+    }
+    .resource-card p {
+        font-size: 0.8em;
+    }
+    .resource-card .read-more {
+        font-size: 0.75em;
+    }
+}
+
+/* --- Global Color Palette --- */
+:root {
+    /* Brand Colors */
+    --color-primary: #E91E63;       /* Pink/red for buttons, accents */
+    --color-secondary: #FF5722;     /* Orange/red for complementary elements */
+    --color-destructive: #F44336;   /* Red for alerts */
+    --color-success: #1B5E29;       /* Green for success */
+
+    /* Neutrals */
+    --color-white: #FFFFFF;
+    --color-light-bg-1: #EFEBE9;    /* Very light, warm background */
+    --color-light-bg-2: #E0E0E0;    /* Standard light grey */
+    --color-grey-dark: #333333;     /* Dark grey for text */
+    --color-grey-medium: #555555;   /* Medium grey for text */
+    --color-grey-light: #888888;    /* Lighter grey for minor text */
+
+    /* Derived Colors (for hovers, specific gradients) */
+    --color-primary-darken: #C2185B; /* A slightly darker shade of --color-primary for hover */
+    --gradient-hero-start: rgba(233, 30, 99, 0.6);  /* --color-primary with opacity for hero gradient */
+    --gradient-hero-end: rgba(255, 87, 34, 0.6);    /* --color-secondary with opacity for hero gradient */
+}
+
+/* --- Community Section --- */
+.community-section {
+    padding: 80px 20px;
+    background-color: var(--color-light-bg-1); /* Light background for warmth */
+}
+.community-container {
+    max-inline-size: 1200px;
+    margin: 0 auto;
+}
+.community-content-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 40px; /* Space between text and image */
+}
+.community-text-content {
+    flex: 1; /* Allows text to take available space */
+    text-align: start;
+}
+.community-heading {
+    font-size: 2.8em;
+    color: var(--color-grey-dark); /* Dark grey for heading */
+    margin-block-end: 20px;
+    line-height: 1.2;
+}
+.community-intro {
+    font-size: 1.1em;
+    color: var(--color-grey-medium); /* Medium grey for intro text */
+    margin-block-end: 30px;
+    line-height: 1.6;
+    max-inline-size: 600px; /* Limit line length for readability */
+}
+.community-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background-color: var(--color-primary); /* Primary brand color for CTA */
+    color: var(--color-white); /* White text for CTA */
+    padding: 15px 30px;
+    border-radius: 50px; /* results --Pill-shaped button */
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1em;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+.community-cta:hover {
+    background-color: var(--color-primary-darken); /* Darker primary on hover */
+    transform: translateY(-3px); /* Slight lift effect */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+.community-cta i {
+    font-size: 1.1em;
+}
+.community-image {
+    flex: 0 0 500px; /* Fixed width for the image container */
+    max-inline-size: 50%; /* Ensures it doesn't overflow on smaller screens */
+    border-radius: 15px; /* Rounded corners for the image container */
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+.community-image img {
+    display: block; /* Removes extra space below image */
+    inline-size: 100%;
+    block-size: auto;
+    object-fit: cover;
+}
+
+/* Media Queries for Community Section */
+@media (max-width: 992px) {
+    .community-content-wrapper {
+        flex-direction: column; /* Stacks content vertically */
+        text-align: center;
+        gap: 30px;
+    }
+    .community-text-content {
+        order: 2; /* Insert text below image */
+    }
+    .community-image {
+        order: 1; /* Insert image above text */
+        max-inline-size: 70%; /* Allows image to be larger on tablets */
+        flex: none; /* Removes fixed flex basis */
+    }
+    .community-heading {
+        font-size: 2.4em;
+    }
+    .community-intro {
+        font-size: 1em;
+        margin-inline-start: auto;
+        margin-right: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .community-section {
+        padding: 60px 15px;
+    }
+    .community-heading {
+        font-size: 2em;
+    }
+    .community-cta {
+        padding: 12px 25px;
+        font-size: 0.9em;
+    }
+    .community-image {
+        max-width: 90%; /* Larger image on mobile */
+    }
+}
+
+@media (max-width: 480px) {
+    .community-heading {
+        font-size: 1.8em;
+    }
+    .community-intro {
+        font-size: 0.95em;
+        margin-bottom: 20px;
+    }
+    .community-cta {
+        padding: 10px 20px;
+        font-size: 0.85em;
+    }
+    .community-image {
+        max-width: 100%;
+    }
+}
+
+
+/* --- Global Color Palette --- */
+:root {
+    /* Brand Colors */
+    --color-primary: #E91E63;       /* Pink/red for buttons, accents */
+    --color-secondary: #FF5722;     /* Your new orange/red for complementary elements */
+    --color-destructive: #F44336;   /* Red for alerts */
+    --color-success: #1B5E29;       /* Green for seccess */
+
+    /* Neutrals */
+    --color-white: #FFFFFF;
+    --color-light-bg-1: #EFEBE9;    /* Very light, warm background */
+    --color-light-bg-2: #E0E0E0;    /* Standard light grey */
+    --color-grey-dark: #333333;     /* Dark grey for text */
+    --color-grey-medium: #555555;   /* Medium grey for text */
+    --color-grey-light: #888888;    /* Lighter grey for minor text */
+
+    /* Derived Colors (for hovers, specific gradients) */
+    --color-primary-darken: #C2185B; /* A slightly darker shade of --color-primary for hover */
+    --gradient-hero-start: rgba(233, 30, 99, 0.6);   /* --color-primary with opacity for hero gradient */
+    --gradient-hero-end: rgba(255, 87, 34, 0.6);     /* --color-secondary with opacity for hero gradient */
+}
+
+/* --- FAQ Section --- */
+.faq-section {
+    padding: 80px 20px;
+    background-color: var(--color-light-bg-2); /* Light grey background */
+}
+.faq-content-wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex; /* Establishes the two-column layout for large screens */
+    gap: 40px;
+    align-items: center; /* Vertically aligns the two main columns (left-column and text-side) */
+}
+
+.faq-left-column {
+    display: flex;
+    flex-direction: column; /* Stacks the title and image vertically */
+    flex: 1; /* Allows this column to take up available space */
+    align-items: center; /* Centers contents (title, image) horizontally within this column */
+    justify-content: center; /* Centers content vertically if there's extra space */
+}
+
+.faq-text-side {
+    flex: 1.5; /* Allows the FAQ list to take up more space on the right */
+}
+.faq-container {
+    max-width: 700px; /* Controls max width for FAQ items */
+    margin: 0 auto; /* Centers FAQ items if text side is wider */
+}
+
+.faq-heading {
+    font-size: 2.8em;
+    color: var(--color-grey-dark); /* Dark grey for heading */
+    margin-bottom: 40px; /* Space below heading */
+    text-align: center; /* Centers the heading text on large screens */
+}
+
+.faq-item {
+    background-color: var(--color-white); /* White background for each item */
+    border-radius: 8px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05); /* Subtle shadow */
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.faq-item:last-child {
+    margin-bottom: 0;
+}
+
+.faq-question {
+    width: 100%;
+    background-color: var(--color-light-bg-1); /* Light background for question button */
+    border: 1px solid var(--color-light-bg-2); /* Subtle border */
+    padding: 20px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    text-align: left;
+    font-size: 1.1em;
+    font-weight: 600;
+    color: var(--color-grey-dark); /* Dark grey for question text */
+    transition: all 0.3s ease;
+}
+
+.faq-question:hover {
+    background-color: var(--color-light-bg-2); /* Slightly darker background on hover */
+    border-color: var(--color-primary); /* Primary border on hover */
+}
+
+.faq-question h3 {
+    margin: 0;
+    font-size: 1.1em; /* Adjust heading size within button */
+    color: inherit; /* Inherits from faq-question */
+}
+
+.faq-icon {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: var(--color-primary); /* Primary color for icon */
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.faq-question.active {
+    background-color: var(--color-primary); /* Primary background when active */
+    color: var(--color-white); /* White text when active */
+    border-color: var(--color-primary); /* Primary border when active */
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.faq-question.active .faq-icon {
+    transform: rotate(45deg); /* Rotate for 'x' effect */
+    color: var(--color-white); /* White icon when active */
+}
+
+.faq-answer {
+    background-color: var(--color-white); /* White background for answer content */
+    padding: 0 25px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease-out, padding 0.4s ease-out;
+}
+
+.faq-answer p {
+    font-size: 1em;
+    line-height: 1.6;
+    color: var(--color-grey-medium); /* Medium grey for answer text */
+    padding-bottom: 20px; /* Space below paragraph */
+}
+
+.faq-image {
+    width: 400px; /* Maintains the fixed width */
+    max-width: 100%; /* Ensures it scales down if 400px is too wide for the column */
+    height: 300px; /* <--- ADDED FIXED HEIGHT TO THE CONTAINER FOR CROPPING */
+    overflow: hidden; /* <--- ADDED TO HIDE THE CROPPED PARTS */
+    display: block; /* Ensures no extra space around the image */
+    border-radius: 1em;
+    margin-top: 20px; /* Adds space between the title and the image */
+}
+
+.faq-image img {
+    width: 100%; /* Make the image fill the container width */
+    height: 100%; /* Make the image fill the container height */
+    object-fit: cover; /* <--- THIS IS THE KEY FOR CROPPING */
+    object-position: center; /* <--- CENTERS THE CROP (default is center) */
+    display: block;
+    border-radius: 1em; /* Apply border-radius here too for consistency */
+}
+
+/* Media Queries for FAQ Section */
+@media (max-width: 992px) { /* For screens smaller than 992px (tablets and smaller desktops) */
+    .faq-content-wrapper {
+        flex-direction: column; /* Stacks content vertically */
+        gap: 30px;
+    }
+    .faq-left-column {
+        order: 1; /* Puts the title/image column at the top when stacked */
+        width: 100%; /* Allows it to take full width */
+        align-items: center; /* Centers the title and image when stacked */
+    }
+    .faq-heading {
+        text-align: center; /* Centers the heading when stacked */
+        margin-bottom: 30px;
+    }
+    .faq-image {
+        max-width: 60%; /* Adjust image container size when stacked */
+        width: auto; /* Allows width to be flexible based on max-width */
+        height: 250px; /* <--- ADJUSTED HEIGHT FOR SMALLER SCREENS */
+        margin-top: 0; /* Remove top margin when stacked, spacing handled by gap */
+        align-self: center; /* Ensures image is centered in the column */
+    }
+    .faq-text-side {
+        order: 2; /* Puts the FAQ items below the title/image column */
+        width: 100%; /* Take full width */
+    }
+}
+
+@media (max-width: 768px) { /* For large screen tablets */
+    .faq-section {
+        padding: 60px 15px;
+    }
+    .faq-heading {
+        font-size: 2.2em;
+        margin-bottom: 25px;
+    }
+    .faq-question {
+        padding: 18px 20px;
+        font-size: 1em;
+    }
+    .faq-question h3 {
+        font-size: 1em;
+    }
+    .faq-icon {
+        font-size: 1.3em;
+    }
+    .faq-answer p {
+        font-size: 0.95em;
+        padding-bottom: 15px;
+    }
+    .faq-image {
+        max-width: 80%;
+        height: 200px; /* <--- ADJUSTED HEIGHT FOR TABLETS */
+    }
+}
+
+@media (max-width: 480px) { /* For small screen --phones */
+    .faq-heading {
+        font-size: 2em;
+    }
+    .faq-question {
+        padding: 15px 18px;
+        font-size: 0.95em;
+    }
+    .faq-question h3 {
+        font-size: 0.95em;
+    }
+    .faq-icon {
+        font-size: 1.2em;
+    }
+    .faq-answer p {
+        font-size: 0.9em;
+        padding-bottom: 12px;
+    }
+    .faq-image {
+        max-width: 90%; /* Adjusted for better responsiveness */
+        height: 180px; /* <--- ADJUSTED HEIGHT FOR PHONES */
+    }
+}
+
+
+/* --- Global Color Palette --- */
+:root {
+    /* Brand Colors */
+    --color-primary: #E91E63;       /* Pink/red for buttons, accents */
+    --color-secondary: #FF5722;     /* Orange/red for complementary elements */
+    --color-destructive: #F44336;   /* Red for alert */
+    --color-success: #1B5E29;       /* Green for success */
+
+    /* Neutrals */
+    --color-white: #FFFFFF;
+    --color-light-bg-1: #EFEBE9;    /* Very light, warm background - REVERTED */
+    --color-light-bg-2: #E0E0E0;    /* Standard light grey */
+    --color-grey-dark: #333333;     /* Dark grey for text */
+    --color-grey-medium: #555555;   /* Medium grey for text */
+    --color-grey-light: #888888;    /* Lighter grey for minor text */
+
+    /* Derived Colors (for hovers, specific gradients) */
+    --color-primary-darken: #C2185B; /* A slightly darker shade of --color-primary for hover */
+    --gradient-hero-start: rgba(233, 30, 99, 0.6);   /* --color-primary with opacity for hero gradient */
+    --gradient-hero-end: rgba(255, 87, 34, 0.6);     /* --color-secondary with opacity for hero gradient */
+
+    /* Removed screenshot-specific colors:
+    --color-dark-teal, --color-light-peach, --color-text-subtle, --color-line-grey, --color-link-blue
+    And adjusted their usage below */
+}
+
+/* --- Contact Section --- */
+.contact-section {
+    padding: 80px 20px;
+    background-color: var(--color-white); /* Page background */
+    text-align: center; /* Centers the main heading and intro text */
+}
+.contact-section .container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.section-tagline { /* "GET IN TOUCH" */
+    font-size: 0.9em;
+    color: var(--color-grey-medium);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+}
+
+.contact-section h2 { /* "We're Here to Support You" */
+    font-size: 2.8em;
+    color: var(--color-grey-dark);
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.contact-intro { /* Paragraph below main heading */
+    font-size: 1.1em;
+    color: var(--color-grey-medium);
+    line-height: 1.6;
+    margin-bottom: 50px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+/* Styles for the big outer card */
+.main-contact-card {
+    background-color: var(--color-light-bg-1);
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    text-align: left; /* Default text alignment for content inside */
+}
+
+/* This wrapper handles the side-by-side layout of the inner sections */
+.contact-content-wrapper {
+    display: flex;
+    gap: 40px;
+    align-items: flex-start; /* KEY: Ensures columns align at the top and height is content-driven */
+}
+
+/* Styles for the left column (Contact Details) */
+.contact-details-column {
+    flex: 1; /* Retains its base flex share */
+    padding-right: 20px;
+}
+
+.contact-details-column h3 { /* "Contact Details:" heading */
+    font-size: 2.2em;
+    color: var(--color-grey-dark);
+    margin-bottom: 30px;
+    text-align: center; 
+}
+
+.contact-info p { /* Email, Phone, Address lines */
+    font-size: 1.1em;
+    color: var(--color-grey-medium);
+    line-height: 1.6;
+    margin-bottom: 15px;
+}
+.contact-info p strong {
+    font-weight: 600;
+    color: var(--color-grey-dark);
+}
+
+.contact-details-icons { /* Social media icons container */
+    margin-top: 30px;
+    display: flex;
+    gap: 20px;
+}
+
+.contact-details-icons a {
+    color: var(--color-grey-medium);
+    font-size: 1.6em;
+    transition: color 0.3s ease;
+}
+
+.contact-details-icons a:hover {
+    color: var(--color-primary);
+}
+
+/* Styles for the right column (Form) */
+.contact-form-column {
+    flex: 1.5; /* Takes more space than the left column */
+    background-color: var(--color-white);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: inset 0 0 10px rgba(0,0,0,0.02);
+    text-align: center; 
+}
+
+.contact-form-column h3 { /* "Send Us a Message" heading */
+    font-size: 2.2em;
+    color: var(--color-grey-dark);
+    margin-bottom: 30px;
+    text-align: center; 
+}
+
+/* Styles for the form elements */
+.form-group {
+    margin-bottom: 30px;
+    position: relative; 
+}
+.form-group label {
+    position: absolute;
+    top: 15px; 
+    left: 10px; /* Align with input text start (assuming 10px horizontal padding) */
+    font-size: 1.1em;
+    color: var(--color-grey-medium);
+    transition: all 0.2s ease-out; /* Smooth transition for floating */
+    pointer-events: none; /* Allows clicks to pass through to the input */
+    transform-origin: left; /* Ensures scaling/moving originates from the left */
+    background-color: var(--color-white); /* KEY CHANGE: Match form background to avoid text cutting when label floats */
+    padding: 0 5px; /* Small padding to lift label text slightly off border */
+    z-index: 1; /* Ensure label is above input text during transition */
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 15px 10px 10px 10px;
+    border: none;
+    border-bottom: 1px solid var(--color-light-bg-2);
+    background-color: transparent; /* Keeps the form background visible */
+    font-size: 1.1em;
+    color: var(--color-grey-dark);
+    outline: none; /* Removes default focus outline */
+    transition: border-color 0.3s ease;
+    text-align: left; /* Keep input text left-aligned */
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: transparent; /* Keep placeholders transparent as labels are used */
+}
+
+/* Floating Label Effect */
+.form-group input:focus + label,
+.form-group textarea:focus + label,
+.form-group input:not(:placeholder-shown) + label,
+.form-group textarea:not(:placeholder-shown) + label {
+    top: -10px; /* Moves label vertically above the input field */
+    font-size: 0.85em; /* Shrinks the label text */
+    color: var(--color-primary); /* Changes label color on focus/filled */
+}
+
+/* Input/Textarea Focus State */
+.form-group input:focus,
+.form-group textarea:focus {
+    border-color: var(--color-primary); /* Changes bottom border color on focus */
+}
+
+/* Textarea specific styles */
+.form-group textarea {
+    resize: vertical; /* Allow vertical resizing */
+    min-height: 60px;
+    max-height: 150px;
+}
+
+/* Submit Button Styles (already robust, just keeping for context) */
+.contact-form-column .btn {
+    display: block;
+    width: auto;
+    margin: 0 auto; /* Centers the button horizontally */
+    background-color: var(--color-primary);
+    color: var(--color-white);
+    padding: 15px 30px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 30px; /* Space above the button */
+}
+
+.contact-form-column .btn:hover {
+    background-color: var(--color-primary-darken);
+    transform: translateY(-2px);
+}
+
+/* Form Status Messages (already good) */
+.form-status {
+    margin-top: 20px;
+    font-size: 1em;
+    font-weight: 600;
+    text-align: center;
+    color: var(--color-grey-medium);
+}
+.form-status.success {
+    color: var(--color-success);
+}
+.form-status.error {
+    color: var(--color-destructive);
+}
+
+
+/* Media Queries for Contact Section */
+@media (max-width: 992px) {
+    .contact-intro {
+        margin-bottom: 30px;
+    }
+    .main-contact-card {
+        padding: 30px;
+    }
+    .contact-content-wrapper {
+        flex-direction: column;
+        gap: 30px;
+        align-items: center; /* KEY CHANGE: Center stacked columns on medium screens */
+    }
+    .contact-details-column,
+    .contact-form-column {
+        padding-right: 0;
+        width: 100%; /* Ensure full width when stacked */
+        max-width: 500px; /* Optional: limit max width for readability */
+    }
+    .contact-details-column h3,
+    .contact-form-column h3 {
+        text-align: center; /* Already set above, but good to keep for clarity */
+        margin-bottom: 20px;
+    }
+    .contact-info p {
+        text-align: center;
+    }
+    .contact-details-icons {
+        justify-content: center;
+    }
+    .response-time-text {
+        margin-top: 30px;
+    }
+    .contact-form-column .btn {
+        width: 100%; /* Button takes full width when stacked */
+        margin: 0 auto; /* Ensure it stays centered */
+    }
+    /* Adjust flex values for stacked columns */
+    .contact-details-column,
+    .contact-form-column {
+        flex: none; /* Reset flex values when stacking */
+    }
+}
+/* For smaller screens like tablets */
+@media (max-width: 768px) {
+    .contact-section {
+        padding: 60px 15px;
+    }
+    .contact-section h2 {
+        font-size: 2.2em;
+    }
+    .contact-intro {
+        font-size: 1em;
+        margin-bottom: 25px;
+    }
+    .main-contact-card {
+        padding: 25px;
+    }
+    .contact-details-column h3,
+    .contact-form-column h3 {
+        font-size: 1.8em;
+        margin-bottom: 15px;
+    }
+    .contact-info p {
+        font-size: 0.95em;
+        margin-bottom: 10px;
+    }
+    .contact-details-icons {
+        margin-top: 20px;
+    }
+    .form-group label {
+        font-size: 1em;
+    }
+    .form-group input,
+    .form-group textarea {
+        font-size: 1em;
+    }
+    .contact-form-column .btn {
+        padding: 12px 25px;
+        font-size: 1em;
+    }
+    .response-time-text {
+        margin-top: 25px;
+    }
+}
+/* For small screens like phones */
+@media (max-width: 480px) {
+    .contact-section {
+        padding: 40px 10px;
+    }
+    .contact-section h2 {
+        font-size: 1.8em;
+    }
+    .contact-intro {
+        font-size: 0.95em;
+    }
+    .main-contact-card {
+        padding: 15px;
+    }
+    .contact-details-column h3,
+    .contact-form-column h3 {
+        font-size: 1.6em;
+    }
+    .contact-info p {
+        font-size: 0.9em;
+    }
+    .contact-details-icons {
+        gap: 15px;
+        font-size: 1.3em;
+    }
+    .contact-details-icons a {
+        font-size: 1.3em;
+    }
+    .form-group label {
+        font-size: 0.9em;
+    }
+    .form-group input,
+    .form-group textarea {
+        padding: 8px 0 5px 0;
+        font-size: 0.9em;
+    }
+    .contact-form-column .btn {
+        padding: 10px 20px;
+        font-size: 0.9em;
+    }
+    .response-time-text {
+        font-size: 0.8em;
+        margin-top: 15px;
+    }
+}
+
+
+/* --- Global Color Palette --- */
+:root {
+    /* Brand Colors */
+    --color-primary: #E91E63;       /* Pink/red for buttons, accents */
+    --color-secondary: #FF5722;     /* Orange/red for complementary elements */
+    --color-destructive: #F44336;   /* Red for alert */
+    --color-success: #1B5E29;       /* Green for success */
+
+    /* Neutrals */
+    --color-white: #FFFFFF;
+    --color-light-bg-1: #EFEBE9;    /* Very light, warm background */
+    --color-light-bg-2: #E0E0E0;    /* Standard light grey */
+    --color-grey-dark: #333333;     /* Dark grey for text */
+    --color-grey-medium: #555555;   /* Medium grey for text */
+    --color-grey-light: #888888;    /* Lighter grey for minor text */
+
+    /* Derived Colors (for hovers, specific gradients) */
+    --color-primary-darken: #C2185B; /* A slightly darker shade of --color-primary for hover */
+    --gradient-hero-start: rgba(233, 30, 99, 0.6);  /* --color-primary with opacity for hero gradient */
+    --gradient-hero-end: rgba(255, 87, 34, 0.6);    /* --color-secondary with opacity for hero gradient */
+}
+
+/* --- Footer Section --- */
+footer {
+    background-color: var(--color-light-bg-1); /* Overall light background */
+    padding: 60px 20px 30px;
+    font-size: 0.95em;
+    max-height: 100%;
+}
+footer .container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+.footer-main-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch; 
+    flex-wrap: wrap; /* Allows content to wrap on smaller screens */
+    gap: 50px; /* Space between main footer columns */
+    margin-bottom: 40px;
+}
+.footer-left {
+    background-color: var(--color-grey-dark); /* Dark card background */
+    border-radius: 3em;
+    padding: 1.5em;
+    display: flex;
+    flex-direction: column;
+    gap: 14px; /* Space between logo, nav, social, legal */
+    flex: 1.2; /* Allows this side to take more space */
+    min-width: 280px; /* Ensure it doesn't get too squished */
+    color: var(--color-white); /* Ensure text in dark card is white */
+}
+.footer-logo .logo-link {
+    font-size: 2.7em;
+    font-weight: 700;
+    color: var(--color-white); /* White logo text */
+    text-decoration: none;
+    letter-spacing: 1px;
+}
+.footer-nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* Horizontal nav for footer */
+    gap: 25px; /* Space between nav items */
+    flex-wrap: wrap;
+}
+.footer-nav ul li a {
+    color: var(--color-white); /* White nav links */
+    text-decoration: none;
+    transition: color 0.3s ease;
+    font-weight: 500;
+    line-height: 1.5em; /* Added a more reasonable line-height */
+}
+.footer-nav ul li a:hover {
+    color: var(--color-primary); /* Primary color on hover */
+}
+.footer-social h3 {
+    font-size: 1.1em;
+    color: var(--color-white);
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+.social-icons {
+    display: flex;
+    gap: 15px;
+}
+.social-icons a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1); /* Subtle white background for icons */
+    color: rgba(255, 255, 255, 0.7); /* Slightly faded white icons */
+    font-size: 1.1em;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.2s ease;
+}
+.social-icons a:hover {
+    background-color: var(--color-primary); /* Primary background on hover */
+    color: var(--color-white); /* Solid white icon on hover */
+    transform: translateY(-3px); /* Lift effect */
+}
+.footer-legal ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex; /* Horizontal legal links */
+    gap: 20px;
+    flex-wrap: wrap;
+}
+.footer-legal ul li a {
+    color: var(--color-white); /* White legal links */
+    text-decoration: none;
+    font-size: 0.85em;
+    transition: color 0.3s ease;
+    line-height: 1.5em; /* Added a more reasonable line-height */
+}
+.footer-legal ul li a:hover {
+    color: var(--color-primary); /* Primary color on hover */
+}
+.footer-legal p {
+    padding-top: 1%;
+    margin-top: 25px;
+    text-align: left;
+    font-size: 1em;
+    color: rgba(255, 255, 255, 0.7); /* Slightly faded white copyright text */
+    line-height: 1.5em; /* Added a more reasonable line-height */
+}
+
+/* Styles for the Right Card (with Image) */
+.footer-right {
+    flex: 1; /* Takes up the remaining space */
+    /* text-align: center; Removed as content is now wrapped in footer-right-content */
+    min-width: 250px; /* Ensures it doesn't get too squished */
+    border-width: 0.15em;
+    border-style: solid;
+    border-color: var(--color-primary); /* Changed border to primary color */
+    background-color: var(--color-grey-dark); /* Dark card background */
+    border-radius: 3em; /* Retained rounded corners */
+    display: flex; 
+    flex-direction: column; /* KEY CHANGE: Stack image and content vertically */
+    overflow: hidden; /* Ensure content is contained within border-radius */
+    color: var(--color-white); /* Ensure text in dark card is white */
+}
+
+.footer-image-container {
+    width: 100%;
+    /* KEY CHANGE: Fixed height for the image area, adjust as needed */
+    height: 180px;
+    overflow: hidden; 
+    /* Match top border-radius of the card */
+    border-top-left-radius: 3em;
+    border-top-right-radius: 3em;
+    margin-bottom: 25px; /* Space between image and text content */
+}
+
+.footer-right-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block; /* Removes extra space below the image */
+}
+
+.footer-right-content {
+    padding: 0 2em; 
+    text-align: center; /* Center text content inside this wrapper */
+    display: flex; /* Make content itself a flex column for spacing */
+    flex-direction: column;
+    align-items: center; /* Center items horizontally */
+    gap: 15px; /* Space between h2, p, and button */
+    /* Previous h2 and p margins will be overridden by gap on flex children */
+}
+
+.footer-right-content h2 { /* Targeting h2 within the new content wrapper */
+    font-size: 1.8em;
+    color: var(--color-white);
+    line-height: 1.3;
+    margin-bottom: 0; /* Managed by gap */
+}
+.footer-right-content p { /* Targeting p within the new content wrapper */
+    font-size: 1em;
+    color: var(--color-white);
+    line-height: 1.3;
+    margin-bottom: 0; /* Managed by gap */
+}
+
+.footer-cta-btn {
+    display: inline-block;
+    background-color: var(--color-primary); /* Primary background for CTA button */
+    color: var(--color-white); /* White text for CTA button */
+    padding: 5px 20px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1em;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    margin-top: 10px; /* Reduced margin to align with gap */
+    margin-bottom: 10px;
+}
+.footer-cta-btn:hover {
+    background-color: var(--color-primary-darken); /* Darker primary on hover */
+    transform: translateY(-2px);
+}
+
+/* Responsive Design for Footer */
+/* for large screens */
+@media screen and (max-width: 992px) {
+    .footer-main-content {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+    .footer-left,
+    .footer-right {
+        width: 100%;
+        max-width: 500px;
+        min-width: unset;
+        /* Padding handled by specific column padding, but general padding is also fine */
+    }
+    /* Adjust specific padding for the footer-left card when stacked */
+    .footer-left {
+        padding: 1.5em;
+    }
+    /* Adjust specific padding for the footer-right card when stacked */
+    .footer-right {
+        padding: 0; /* Remove overall padding, handled by content wrapper */
+        border-radius: 3em; /* Ensure consistent border-radius */
+    }
+    .footer-nav ul,
+    .footer-legal ul,
+    .social-icons {
+        justify-content: center;
+    }
+    .footer-legal p {
+        text-align: center;
+    }
+
+    /* Adjust image and content spacing when stacked */
+    .footer-image-container {
+        height: 220px; /* Adjust image height for stacked view */
+        border-radius: 3em 3em 0 0; /* Only top corners rounded for image */
+    }
+    .footer-right-content {
+        padding: 1.5em; /* Add overall padding to the content wrapper when stacked */
+        gap: 10px; /* Adjust gap for smaller screens */
+    }
+    .footer-cta-btn {
+        width: 100%; /* Make button full width when stacked */
+    }
+}
+/* for medium screens like tablets */
+@media screen and (max-width: 768px) {
+    footer {
+        padding: 40px 15px 20px;
+    }
+    .footer-left,
+    .footer-right {
+        border-radius: 2em; /* Slightly less rounded corners */
+    }
+    .footer-logo .logo-link {
+        font-size: 2.2em;
+    }
+    .footer-right-content h2 {
+        font-size: 1.5em;
+    }
+    .footer-right-content p {
+        font-size: 0.9em;
+    }
+    .footer-cta-btn {
+        padding: 12px 20px;
+        font-size: 0.9em;
+    }
+    .footer-image-container {
+        height: 180px; /* Further adjust image height for smaller screens */
+        border-radius: 2em 2em 0 0;
+    }
+    .footer-right-content {
+        padding: 1.2em;
+    }
+}
+/* for small screens like phones */
+@media screen and (max-width: 480px) {
+    footer {
+        padding: 30px 10px 15px;
+    }
+    .footer-logo .logo-link {
+        font-size: 2em;
+    }
+    .footer-nav ul {
+        gap: 15px;
+    }
+    .footer-social h3 {
+        font-size: 1em;
+    }
+    .social-icons a {
+        width: 35px;
+        height: 35px;
+        font-size: 1em;
+    }
+    .footer-legal ul {
+        gap: 10px;
+    }
+    .footer-right-content h2 {
+        font-size: 1.3em;
+    }
+    .footer-right-content p {
+        font-size: 0.85em;
+    }
+    .footer-cta-btn {
+        padding: 10px 20px;
+        font-size: 0.9em;
+    }
+    .footer-image-container {
+        height: 150px;
+        border-radius: 2em 2em 0 0;
+    }
+    .footer-right-content {
+        padding: 1em;
+    }
+}
+
+/* --- Scroll to Top Button --- */
+#scrollToTopBtn {
+    display: none; /* Hidden by default */
+    position: fixed; /* Fixed at the bottom-right */
+    bottom: 30px;
+    right: 30px;
+    z-index: 99; /* High z-index to be on top */
+    background-color: var(--color-primary-darken); /* Primary brand color */
+    color: var(--color-white); /* White icon */
+    border: none;
+    border-radius: 50%; /* Result --Circular button */
+    width: 50px;
+    height: 50px;
+    font-size: 1.5em;
+    line-height: 50px; /* Centers icon vertically */
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+#scrollToTopBtn:hover {
+    background-color: var(--color-primary-darken); /* Darker primary on hover */
+    transform: translateY(-3px);
+}
+/*scrollToTopBtn*/
+#scrollToTopBtn:hover {
+    background-color: #ff418d; /* Darker background on hover */
+    transform: translateY(-3px); /* Slightly lift the button */
+}
+/* Icon specific styling */
+#scrollToTopBtn i {
+    pointer-events: none; /* Ensures clicks go through to the button, not the icon */
+}
+/* Media Queries for Footer */
+@media (max-width: 992px) { /* For large screens */
+    .footer-main-content {
+        flex-direction: column; /* Stack columns */
+        align-items: center; /* Centers content horizontally */
+        text-align: center;
+        gap: 30px;
+    }
+    .footer-left {
+        order: 2; /* Makes footer-left appear second (below footer-right) */
+        min-width: unset;
+        width: 100%;
+        text-align: center;
+    }
+    .footer-right {
+        order: 1; /* Make footer-right appear first (on top) */
+        min-width: unset;
+        width: 100%; /* Ensure it takes full width */
+        text-align: center; /* Center content */
+    }
+    .footer-nav ul,
+    .social-icons,
+    .footer-legal ul {
+        justify-content: center;
+    }
+}
+@media (max-width: 768px) { /* For medium screens */
+    footer {
+        padding: 40px 15px 20px;
+    }
+    .footer-main-content {
+        gap: 25px;
+        margin-bottom: 30px;
+    }
+    .footer-logo .logo-link {
+        font-size: 1.6em;
+    }
+    .footer-nav ul {
+        gap: 20px;
+    }
+    .social-icons a {
+        width: 36px;
+        height: 36px;
+        font-size: 1em;
+    }
+    .footer-right h2 {
+        font-size: 1.6em;
+    }
+    .footer-right p {
+        font-size: 0.9em;
+    }
+    .footer-cta-btn {
+        padding: 10px 20px;
+        font-size: 0.9em;
+    }
+    #scrollToTopBtn {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+        font-size: 1.3em;
+    }
+}
+@media (max-width: 480px) {  /* For small screens --phone */
+    footer {
+        padding: 30px 10px 15px;
+    }
+    .footer-main-content {
+        gap: 20px;
+    }
+    .footer-logo .logo-link {
+        font-size: 1.4em;
+    }
+    .footer-nav ul {
+        flex-direction: column; /* Stack nav items vertically */
+        gap: 10px;
+    }
+    .social-icons {
+        gap: 10px;
+    }
+    .footer-legal ul {
+        flex-direction: column; /* Stack legal links vertically */
+        gap: 8px;
+    }
+    .footer-right h2 {
+        font-size: 1.4em;
+    }
+    .footer-right p {
+        font-size: 0.85em;  
+    }
+    .footer-bottom {
+        padding-top: 20px;
+        margin-top: 20px;
+        font-size: 0.8em;
+    }
+    #scrollToTopBtn {
+        bottom: 15px;
+        right: 15px;
+        width: 40px;
+        height: 40px;
+        font-size: 1.1em;
+    }
+}
